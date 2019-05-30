@@ -2,6 +2,7 @@ package com.mgr.server.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 public class Server {
 
     private long id;
@@ -22,10 +23,6 @@ public class Server {
     public Server(long incrementAndGet, String format) {
         this.id = incrementAndGet;
         this.context = format;
-    }
-
-    public Server() {
-
     }
 
     public Integer chooseRandomDelay(){
