@@ -29,7 +29,11 @@ public class ServerService extends TimerTask {
     };
 
     public void updateProgress(String _id) {
-        current = server.getMap().get(_id);
+        for (Map.Entry<String, Memory> entry : server.getMap().entrySet()) {
+            if(_id.equals(entry.getValue().getName())){
+                current = entry.getValue();
+            }
+        }
         timer.schedule(progressBar, 100, 100);
     }
 
