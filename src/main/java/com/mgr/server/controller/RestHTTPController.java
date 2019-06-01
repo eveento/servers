@@ -26,7 +26,7 @@ public class RestHTTPController {
 
     private static final Logger log = LogManager.getLogger(RestHTTPController.class);
 
-    @RequestMapping(value = "/uuid", method = RequestMethod.GET)
+    @RequestMapping(value = "/uuid", method = RequestMethod.POST)
     public ResponseEntity<String> getUUId(@RequestParam(name = "id") Integer _id, String _method) {
         try {
             Memory memory = new Memory();
@@ -49,7 +49,7 @@ public class RestHTTPController {
         }
     }
 
-    @RequestMapping(value = "/response", method = RequestMethod.POST)
+    @RequestMapping(value = "/response", method = RequestMethod.GET)
     public ResponseEntity<String> getResponse(@RequestParam(name = "uuid") String _uuid) {
         try {
             Memory task = serverService.findTask(_uuid);
