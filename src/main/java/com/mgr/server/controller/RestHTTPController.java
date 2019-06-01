@@ -8,10 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -26,7 +24,7 @@ public class RestHTTPController {
 
     private static final Logger log = LogManager.getLogger(RestHTTPController.class);
 
-    @RequestMapping(value = "/uuid", method = RequestMethod.POST)
+    @RequestMapping(value = "/uuid", method = RequestMethod.GET)
     public ResponseEntity<String> getUUId(@RequestParam(name = "id") Integer _id, String _method) {
         try {
             Memory memory = new Memory();
