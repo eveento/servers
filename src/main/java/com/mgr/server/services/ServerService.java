@@ -12,18 +12,17 @@ import java.util.stream.Collectors;
 @Service
 public class ServerService extends TimerTask {
 
-    private int[] delay = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50};
-    final Integer TIME = 1000;
-
     @Autowired
     private Server server;
     @Autowired
     private Memory current;
 
-    double increment = 0.0;
+    private double increment = 0.0;
+    private int[] delay = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50};
+    private final Integer TIME = 1000;
 
-    Timer timer = new Timer();
-    TimerTask progressBar = new TimerTask() {
+    private Timer timer = new Timer();
+    private TimerTask progressBar = new TimerTask() {
         @Override
         public void run() {
             if (current.getReady() && increment != 100.0) {
@@ -62,7 +61,6 @@ public class ServerService extends TimerTask {
         List<Integer> list = Arrays.stream(delay).boxed().collect(Collectors.toList());
         return list.indexOf(_delay) * TIME;
     }
-
 
     @Override
     public void run() {

@@ -19,15 +19,18 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 @RequestMapping(value = "/http")
 public class RestHTTPController {
-    private static final Logger log = LogManager.getLogger(RestHTTPController.class);
+
     @Autowired
     private Memory memory;
-    @Autowired
-    private Server server ;
-    @Autowired
-    private ServerService serverService ;
-    private Integer delay;
 
+    @Autowired
+    private Server server;
+
+    @Autowired
+    private ServerService serverService;
+
+    private static final Logger log = LogManager.getLogger(RestHTTPController.class);
+    private Integer delay;
     private final AtomicLong counterRand = new AtomicLong();
     private final AtomicLong counterPredictable = new AtomicLong();
 
@@ -74,9 +77,8 @@ public class RestHTTPController {
     @RequestMapping(value = "/response", method = RequestMethod.POST)
     public String getResponse(@RequestParam(name = "uuid") String _uuid) {
         try {
-            Memory task;
-            task = serverService.findTask(_uuid);
-            return "Task " + task.getName() + " has be done with " + task.getPercent() + " %";
+            Memory task = serverService.findTask(_uuid);
+            return task.getPercent().toString();
         } catch (Exception e) {
             return "Task does not exist in memory. " + e.getMessage();
         }
