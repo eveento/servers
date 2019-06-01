@@ -6,6 +6,8 @@ import com.mgr.server.services.ServerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,9 +19,6 @@ import java.util.UUID;
 public class RestHTTPController {
 
     @Autowired
-    private Memory memory;
-
-    @Autowired
     private Server server;
 
     @Autowired
@@ -28,8 +27,9 @@ public class RestHTTPController {
     private static final Logger log = LogManager.getLogger(RestHTTPController.class);
 
     @RequestMapping(value = "/uuid", method = RequestMethod.GET)
-    public String getUUId(@RequestParam(name = "id") Integer _id, String _method) {
+    public ResponseEntity<String> getUUId(@RequestParam(name = "id") Integer _id, String _method) {
         try {
+            Memory memory = new Memory();
             UUID uuid = UUID.randomUUID();
             String randomUUIDString = uuid.toString();
 
@@ -39,23 +39,23 @@ public class RestHTTPController {
             memory.setBody(_id.toString());
             memory.setMethod(_method);
             server.setMap(randomUUIDString, memory);
-            Memory a = (server.getMap().get(randomUUIDString));
-            serverService.updateProgress(randomUUIDString);
-            log.info("Add to memory. UUID: " + randomUUIDString);
-            log.info("key: " + a.getName());
-            return randomUUIDString;
+            serverService.updateProgressBar(memory);
+
+            log.info("key: " + randomUUIDString);
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(randomUUIDString);
         } catch (Exception e) {
-            return "Cannot load to memory data";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @RequestMapping(value = "/response", method = RequestMethod.POST)
-    public String getResponse(@RequestParam(name = "uuid") String _uuid) {
+    public ResponseEntity<String> getResponse(@RequestParam(name = "uuid") String _uuid) {
         try {
             Memory task = serverService.findTask(_uuid);
-            return task.getPercent().toString();
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(task.getPercent().toString());
         } catch (Exception e) {
-            return "Task does not exist in memory. " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
