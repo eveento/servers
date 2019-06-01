@@ -10,11 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping(value = "/http")
@@ -30,27 +26,6 @@ public class RestHTTPController {
     private ServerService serverService;
 
     private static final Logger log = LogManager.getLogger(RestHTTPController.class);
-    private Integer delay;
-    private final AtomicLong counterRand = new AtomicLong();
-    private final AtomicLong counterPredictable = new AtomicLong();
-
-    @RequestMapping(value = "/rand", method = RequestMethod.POST)
-    public String httpRandomDelay() throws InterruptedException {
-        long amount = counterRand.incrementAndGet();
-        this.delay = serverService.chooseRandomDelay();
-        Thread.sleep(this.delay);
-        log.info("counter: " + amount + " ,delay: " + this.delay.toString());
-        return "counter: " + amount + " ,delay: " + this.delay.toString();
-    }
-
-    @RequestMapping(value = "/predictable", method = RequestMethod.POST)
-    public String httpDelay(@RequestParam(name = "delay") Integer _delay) throws InterruptedException {
-        long amount = counterPredictable.incrementAndGet();
-        this.delay = serverService.chooseDelay(_delay);
-        Thread.sleep(this.delay);
-        log.info("counter: " + amount + " ,delay: " + this.delay.toString());
-        return "counter: " + amount + " ,delay: " + this.delay.toString();
-    }
 
     @RequestMapping(value = "/uuid", method = RequestMethod.GET)
     public String getUUId(@RequestParam(name = "id") Integer _id, String _method) {
