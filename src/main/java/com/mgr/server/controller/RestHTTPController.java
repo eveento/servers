@@ -5,12 +5,14 @@ import com.mgr.server.entity.Server;
 import com.mgr.server.services.ServerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -18,11 +20,12 @@ import java.util.concurrent.atomic.AtomicLong;
 @RequestMapping(value = "/http")
 public class RestHTTPController {
     private static final Logger log = LogManager.getLogger(RestHTTPController.class);
-
-//    private HashMap<String, Memory> map = new HashMap<>();
-    private Memory memory = new Memory();
-    private Server server = new Server();
-    private ServerService serverService =new ServerService();
+    @Autowired
+    private Memory memory;
+    @Autowired
+    private Server server ;
+    @Autowired
+    private ServerService serverService ;
     private Integer delay;
 
     private final AtomicLong counterRand = new AtomicLong();
@@ -58,9 +61,9 @@ public class RestHTTPController {
             memory.setBody(_id.toString());
             memory.setMethod(_method);
             server.setMap(randomUUIDString, memory);
+            Memory a = (server.getMap().get(randomUUIDString));
             serverService.updateProgress(randomUUIDString);
             log.info("Add to memory. UUID: " + randomUUIDString);
-            Memory a = (server.getMap().get(randomUUIDString));
             log.info("key: " + a.getName());
             return randomUUIDString;
         } catch (Exception e) {
@@ -71,11 +74,11 @@ public class RestHTTPController {
     @RequestMapping(value = "/response", method = RequestMethod.POST)
     public String getResponse(@RequestParam(name = "uuid") String _uuid) {
         try {
-            Memory response = server.getMap().get(_uuid);
-            return "Task " + response.getName() + " has be done with " + response.getPercent() + " %";
+            Memory task;
+            task = serverService.findTask(_uuid);
+            return "Task " + task.getName() + " has be done with " + task.getPercent() + " %";
         } catch (Exception e) {
             return "Task does not exist in memory. " + e.getMessage();
         }
-
     }
 }
