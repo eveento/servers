@@ -39,9 +39,7 @@ public class RestHTTPController {
             server.setMap(randomUUIDString, memory);
             serverService.updateProgressBar(memory);
 
-            log.info("key: " + randomUUIDString);
-
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(randomUUIDString);
+            return ResponseEntity.status(HttpStatus.OK).body(randomUUIDString);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -51,7 +49,7 @@ public class RestHTTPController {
     public ResponseEntity<String> getResponse(@RequestParam(name = "uuid") String _uuid) {
         try {
             Memory task = serverService.findTask(_uuid);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(task.getPercent().toString());
+            return ResponseEntity.status(HttpStatus.OK).body(task.getPercent().toString());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
