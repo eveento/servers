@@ -36,7 +36,8 @@ public class RestHTTPController {
             memory.setResponse("Ready to start");
             memory.setBody(_id.toString());
             memory.setMethod(_method);
-            server.setMap(randomUUIDString, memory);
+            server.setMap(randomUUIDString, memory);//dodac do kolejki rabbit request C-rabbit B-server A-client
+
             serverService.updateProgressBar(memory);
 
             return ResponseEntity.status(HttpStatus.OK).body(randomUUIDString);
