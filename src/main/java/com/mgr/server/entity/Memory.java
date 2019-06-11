@@ -1,16 +1,15 @@
 package com.mgr.server.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class Memory {
+@ToString
+public class Memory implements Serializable {
     private String name;
     private String response;
     private Double percent;

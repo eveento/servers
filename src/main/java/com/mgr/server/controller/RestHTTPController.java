@@ -5,6 +5,7 @@ import com.mgr.server.entity.Server;
 import com.mgr.server.services.ServerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class RestHTTPController {
             memory.setResponse("Ready to start");
             memory.setBody(_id.toString());
             memory.setMethod(_method);
-            server.setMap(randomUUIDString, memory);//dodac do kolejki rabbit request C-rabbit B-server A-client
+            server.setMap(randomUUIDString, memory);
 
             serverService.updateProgressBar(memory);
 

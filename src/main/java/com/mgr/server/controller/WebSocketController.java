@@ -1,32 +1,41 @@
 package com.mgr.server.controller;
 
-import com.google.gson.Gson;
+import com.mgr.server.entity.Memory;
+import com.mgr.server.entity.MemoryRequestDTO;
+import com.mgr.server.entity.Server;
+import com.mgr.server.services.ServerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
-
-import java.util.Map;
 
 @Controller
 public class WebSocketController {
 
     @Autowired
-    private SimpMessageSendingOperations messagingTemplate;
+    private Server server;
 
-    @MessageMapping("/message")
-    @SendTo("/topic/reply")
-    public String processMessageFromClient(@Payload String message) throws Exception {
-        String name = new Gson().fromJson(message, Map.class).get("name").toString();
-        return name;
-    }
+    @Autowired
+    private ServerService serverService;
 
-    @MessageExceptionHandler
-    public String handleException(Throwable exception) {
-        messagingTemplate.convertAndSend("/errors", exception.getMessage());
-        return exception.getMessage();
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public String greeting(MemoryRequestDTO memoryRequestDTO) throws Exception {
+
+        try {
+            Memory memory = new Memory();
+            memory.setName(memoryRequestDTO.get_uuid().toString());
+            memory.setPercent(0.0);
+            memory.setResponse("Ready to start");
+            memory.setMethod(memoryRequestDTO.getMethod());
+            server.setMap(memoryRequestDTO.get_uuid().toString(), memory);
+            serverService.updateProgressBar(memory);
+
+            return "ok";
+
+        } catch (Exception e) {
+            return "Not work";
+        }
+
     }
 }

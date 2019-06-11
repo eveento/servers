@@ -8,6 +8,6 @@ public class NotFoundHandler extends RuntimeException{
     }
 
     public NotFoundHandler(String task){
-        super("Not fount " + task);
+        super("Not found " + task);
     }
 }
