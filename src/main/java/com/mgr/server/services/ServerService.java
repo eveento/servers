@@ -34,7 +34,6 @@ public class ServerService {
     public void rabbitReader(Memory _memory){
         Memory task = findTask(_memory.getName());
         task.setPercent(_memory.getPercent());
-        System.out.println("@@@@@@: " + task);
     }
 
 
