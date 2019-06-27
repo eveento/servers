@@ -1,0 +1,47 @@
+version: '3.6'
+services:
+  server-nlp:
+    image: hcrome/server-nlp
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      - spring.rabbitmq.host=156.17.42.118
+      - spring.rabbitmq.port=32002
+  server-facade:
+    image: hcrome/server-facade:first
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - 32000:8080
+    environment:
+      - spring.rabbitmq.host=156.17.42.118
+      - spring.rabbitmq.port=32002
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: "rabbit1"
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - 32001:15672
+      - 32002:5672
+  prometheus:
+    image: prom/prometheus
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - 32033:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+  client:
+    image: hcrome/client-python-app
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      - SERVER_URL=http://156.17.42.118:32000
