@@ -1,8 +1,10 @@
 # libs
 import requests
+import time
 
 # my files
 import addresses
+requests.adapters.DEFAULT_RETRIES = 5
 
 def job(uuid):
     first_job_result = first_job(uuid)
@@ -11,8 +13,8 @@ def job(uuid):
     percentage_done = "0"
     print(first_job_result)
     while percentage_done != "100.0":
-        second_job_result = second_job(result)
-        percentage_done = second_job_result.text
+            second_job_result = second_job(result)
+            percentage_done = second_job_result.text
 
 def first_job(argument):
     response = requests.get(addresses.synchronous(argument))
@@ -20,5 +22,6 @@ def first_job(argument):
 
 
 def second_job(argument):
+    time.sleep(0.5)
     response = requests.get(addresses.asynchronous(argument))
     return response
