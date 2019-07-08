@@ -1,7 +1,9 @@
 package com.mgr.server.controller;
 
+import com.mgr.server.entity.AvaliableDTO;
 import com.mgr.server.entity.Memory;
 import com.mgr.server.entity.Server;
+import com.mgr.server.entity.Statistic;
 import com.mgr.server.services.ServerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,6 +32,7 @@ public class RestHTTPController {
     @RequestMapping(value = "/uuid", method = RequestMethod.GET)
     public ResponseEntity<String> getUUId(@RequestParam(name = "id") Integer _id, String _method) {
         try {
+
             Memory memory = new Memory();
             UUID uuid = UUID.randomUUID();
             String randomUUIDString = uuid.toString();
