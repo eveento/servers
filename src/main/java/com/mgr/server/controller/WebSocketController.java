@@ -12,13 +12,11 @@ public class WebSocketController {
 
     private AtomicLong atomicLong = new AtomicLong(0);
 
-
     @CrossOrigin
     @MessageMapping("/user")
     @SendTo("/topic/user")
     public void webSockerEndpoint(String id) {
         System.out.println("Number: " + atomicLong.getAndIncrement());
     }
-
 
 }
