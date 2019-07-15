@@ -6,7 +6,7 @@ services:
       mode: replicated
       replicas: 1
     environment:
-      - spring.rabbitmq.host=156.17.42.118
+      - spring.rabbitmq.host=156.17.42.121
       - spring.rabbitmq.port=32002
   server-facade:
     image: hcrome/server-facade:first
@@ -16,7 +16,7 @@ services:
     ports:
       - 32000:8080
     environment:
-      - spring.rabbitmq.host=156.17.42.118
+      - spring.rabbitmq.host=156.17.42.121
       - spring.rabbitmq.port=32002
   rabbitmq:
     image: rabbitmq:3-management
@@ -44,4 +44,4 @@ services:
       mode: replicated
       replicas: 1
     environment:
-      - SERVER_URL=http://156.17.42.118:32000
+      - SERVER_URL=http://156.17.42.121:32000
