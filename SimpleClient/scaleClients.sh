@@ -8,5 +8,5 @@ do
   docker service scale client=$i
   i=$[$i+1]
   sleep 10
-  echo "Instances: $i, time: $DATE \n"
+  echo "Instances: $i, time: $DATE \n" >> mountOfClients.txt
 done
