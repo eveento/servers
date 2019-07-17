@@ -5,7 +5,7 @@ import random
 
 def main():
     number_of_threads = 1
-    uuids = random.sample(range(1, 999999900), number_of_threads)
+    uuids = random.sample(range(1, 999999), number_of_threads)
     while True:
         print("Start")  
         threads = []
