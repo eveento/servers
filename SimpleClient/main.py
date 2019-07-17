@@ -5,13 +5,9 @@ import random
 
 def main():
     number_of_threads = 1
-    uuids = random.sample(range(1, 9223372036854775807), number_of_threads)
-    # while True:
-    n = 2
-    while n>1:
-        print("Start")
-        n = 0
-        
+    uuids = random.sample(range(1, 999999900), number_of_threads)
+    while True:
+        print("Start")  
         threads = []
 
         for uuid in uuids:
