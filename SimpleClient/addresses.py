@@ -11,4 +11,5 @@ def asynchronous(argument):
 
 
 def get_server_address():
-    return os.environ.get("SERVER_URL")
+    # return os.environ.get("SERVER_URL")
+    return "http://156.17.42.121:8080"

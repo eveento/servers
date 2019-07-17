@@ -10,7 +10,8 @@ requests.adapters.DEFAULT_RETRIES = 5
 def job(uuid):
     first_job_result = first_job(uuid)
     result = first_job_result.text
-    with open(str(uuid) +'.csv', 'w') as writeFile:
+    # with open('logs/'+str(uuid) +'.csv', 'w') as writeFile:
+    with open('1.csv', 'w') as writeFile:    
         writer = csv.writer(writeFile)
         percentage_done = "0"
         print(first_job_result)
@@ -27,10 +28,10 @@ def job(uuid):
     writeFile.close()
 
 def first_job(argument):
-    response = requests.get(addresses.synchronous(argument),timeout=30)
+    response = requests.get(addresses.synchronous(argument))
     return response
 
 def second_job(argument):
     time.sleep(1)
-    response = requests.get(addresses.asynchronous(argument), timeout=30)
+    response = requests.get(addresses.asynchronous(argument))
     return response
