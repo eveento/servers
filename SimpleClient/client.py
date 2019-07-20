@@ -31,6 +31,5 @@ def first_job(argument):
     return response
 
 def second_job(argument):
-    time.sleep(1)
     response = requests.get(addresses.asynchronous(argument))
     return response
